@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
+    public BulletManager bulletManager;
+    
     public float horizontalBoundary;
     public float horizontalSpeed;
     public float maxSpeed;
@@ -20,6 +23,15 @@ public class PlayerController : MonoBehaviour
     {
         _Move();
         _CheckBounds();
+        _FireBullet();
+    }
+
+    private void _FireBullet()
+    {
+        if (Time.frameCount % 40 == 0)
+        {
+            bulletManager.GetBullet(transform.position);
+        }
     }
     private void _Move()
     {
@@ -55,6 +67,7 @@ public class PlayerController : MonoBehaviour
         Vector2 newVelocity = m_rigidBody.velocity + new Vector2(direction * horizontalSpeed, 0.0f);
         m_rigidBody.velocity = Vector2.ClampMagnitude(newVelocity, maxSpeed);
         m_rigidBody.velocity *= 0.99f;
+
     }
 
     private void _CheckBounds()
